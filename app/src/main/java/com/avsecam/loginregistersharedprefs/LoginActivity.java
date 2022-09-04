@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
@@ -25,6 +26,21 @@ public class LoginActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.SHAREDPREFERENCES_NAME), MODE_PRIVATE);
     private SharedPreferences.Editor editor = sharedPreferences.edit();
 
+    @AfterViews
+    protected void init() {
+        // Remember the remember me checkbox state
+        if (sharedPreferences.contains(getString(R.string.REMEMBERME_KEY))) {
+            rememberMeCheckBox.setChecked(sharedPreferences.getBoolean(getString(R.string.REMEMBERME_KEY), false));
+        }
+        // Remember the saved credentials
+        if (checkForCredentials()) {
+            String savedUsername = sharedPreferences.getString(getString(R.string.USERNAME_KEY), "");
+            String savedPassword = sharedPreferences.getString(getString(R.string.PASSWORD_KEY), "");
+            usernameField.setText(savedUsername);
+            passwordField.setText(savedPassword);
+        }
+    }
+
     @Click(R.id.buttonSignIn)
     public void onLoginButtonPressed() {
         // Check if there are already saved credentials
@@ -37,6 +53,8 @@ public class LoginActivity extends AppCompatActivity {
             boolean correctCredentials = username.equals(savedUsername) && password.equals(savedPassword);
             if (correctCredentials) {
                 // Go to landing page
+                Intent intent = new Intent(this, LandingActivity.class);
+                startActivity(intent);
             } else {
                 Toast.makeText(this, "Invalid credentials.", Toast.LENGTH_SHORT).show();
             }
@@ -60,7 +78,14 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this, "No credentials to clear.", Toast.LENGTH_SHORT).show();
         }
     }
-    
+
+    // Saves the checkbox state on every press
+    @Click(R.id.checkBoxRememberMe)
+    public void onRememberMeCheckboxToggled() {
+        editor.putBoolean(getString(R.string.REMEMBERME_KEY), rememberMeCheckBox.isChecked());
+        editor.commit();
+    }
+
     private boolean checkForCredentials() {
         return sharedPreferences.contains(getString(R.string.USERNAME_KEY)) && sharedPreferences.contains(getString(R.string.PASSWORD_KEY));
     }

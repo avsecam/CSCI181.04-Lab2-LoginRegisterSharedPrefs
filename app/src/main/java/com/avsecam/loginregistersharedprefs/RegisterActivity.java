@@ -33,6 +33,7 @@ public class RegisterActivity extends AppCompatActivity {
             if (password.equals(confirmPassword)) {
                 editor.putString(getString(R.string.USERNAME_KEY), username);
                 editor.putString(getString(R.string.PASSWORD_KEY), password);
+                editor.commit();
                 Toast.makeText(this, "Credentials saved.", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "Passwords do not match!", Toast.LENGTH_SHORT).show();
@@ -44,5 +45,11 @@ public class RegisterActivity extends AppCompatActivity {
             toastText = toastText.substring(0, toastText.length() - 1);
             Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Click(R.id.buttonCancel)
+    public void onCancelButtonPressed() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
     }
 }
