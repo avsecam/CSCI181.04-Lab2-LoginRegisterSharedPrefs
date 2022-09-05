@@ -23,11 +23,14 @@ public class LoginActivity extends AppCompatActivity {
     @ViewById(R.id.editTextPassword) EditText passwordField;
     @ViewById(R.id.checkBoxRememberMe) CheckBox rememberMeCheckBox;
 
-    private SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.SHAREDPREFERENCES_NAME), MODE_PRIVATE);
-    private SharedPreferences.Editor editor = sharedPreferences.edit();
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     @AfterViews
     protected void init() {
+        sharedPreferences = getSharedPreferences(getString(R.string.SHAREDPREFERENCES_NAME), MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
         // Remember the remember me checkbox state
         if (sharedPreferences.contains(getString(R.string.REMEMBERME_KEY))) {
             rememberMeCheckBox.setChecked(sharedPreferences.getBoolean(getString(R.string.REMEMBERME_KEY), false));
@@ -53,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
             boolean correctCredentials = username.equals(savedUsername) && password.equals(savedPassword);
             if (correctCredentials) {
                 // Go to landing page
-                Intent intent = new Intent(this, LandingActivity.class);
+                Intent intent = new Intent(this, LandingActivity_.class);
                 startActivity(intent);
             } else {
                 Toast.makeText(this, "Invalid credentials.", Toast.LENGTH_SHORT).show();
@@ -65,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Click(R.id.buttonRegister)
     public void onRegisterButtonPressed() {
-        Intent goToRegister = new Intent(this, RegisterActivity.class);
+        Intent goToRegister = new Intent(this, RegisterActivity_.class);
         startActivity(goToRegister);
     }
 
@@ -73,6 +76,7 @@ public class LoginActivity extends AppCompatActivity {
     public void onClearButtonPressed() {
         if (checkForCredentials()) {
             editor.clear();
+            editor.commit();
             Toast.makeText(this, "Credentials cleared.", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "No credentials to clear.", Toast.LENGTH_SHORT).show();

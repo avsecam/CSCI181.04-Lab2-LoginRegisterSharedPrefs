@@ -16,10 +16,11 @@ public class LandingActivity extends AppCompatActivity {
 
     @ViewById(R.id.labelWelcome) TextView welcomeLabel;
 
-    SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.SHAREDPREFERENCES_NAME), MODE_PRIVATE);
+    SharedPreferences sharedPreferences;
 
     @AfterViews
     protected void init() {
+        sharedPreferences = getSharedPreferences(getString(R.string.SHAREDPREFERENCES_NAME), MODE_PRIVATE);
         String username = sharedPreferences.getString(getString(R.string.USERNAME_KEY), "");
         boolean rememberMe = sharedPreferences.getBoolean(getString(R.string.REMEMBERME_KEY), false);
 

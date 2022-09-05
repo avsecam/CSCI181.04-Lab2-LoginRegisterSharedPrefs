@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
@@ -19,8 +20,14 @@ public class RegisterActivity extends AppCompatActivity {
     @ViewById(R.id.editTextNewPassword) EditText passwordField;
     @ViewById(R.id.editTextConfirmPassword) EditText confirmPasswordField;
 
-    private SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.SHAREDPREFERENCES_NAME), MODE_PRIVATE);
-    private SharedPreferences.Editor editor = sharedPreferences.edit();
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+
+    @AfterViews
+    protected void init() {
+        sharedPreferences = getSharedPreferences(getString(R.string.SHAREDPREFERENCES_NAME), MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+    }
 
     @Click(R.id.buttonSave)
     public void onSaveButtonPressed() {
@@ -49,7 +56,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     @Click(R.id.buttonCancel)
     public void onCancelButtonPressed() {
-        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(this, LoginActivity_.class);
         startActivity(intent);
     }
 }
