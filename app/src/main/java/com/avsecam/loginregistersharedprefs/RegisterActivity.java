@@ -56,7 +56,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     @Click(R.id.buttonCancel)
     public void onCancelButtonPressed() {
-        Intent intent = new Intent(this, LoginActivity_.class);
-        startActivity(intent);
+        finish();
     }
 }
