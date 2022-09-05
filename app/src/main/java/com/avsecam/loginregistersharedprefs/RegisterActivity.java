@@ -42,6 +42,7 @@ public class RegisterActivity extends AppCompatActivity {
                 editor.putString(getString(R.string.PASSWORD_KEY), password);
                 editor.commit();
                 Toast.makeText(this, "Credentials saved.", Toast.LENGTH_SHORT).show();
+                finish();
             } else {
                 Toast.makeText(this, "Passwords do not match!", Toast.LENGTH_SHORT).show();
             }
