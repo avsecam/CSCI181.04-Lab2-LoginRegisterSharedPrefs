@@ -34,7 +34,10 @@ public class LoginActivity extends AppCompatActivity {
         // Remember the remember me checkbox state
         if (sharedPreferences.contains(getString(R.string.REMEMBERME_KEY))) {
             rememberMeCheckBox.setChecked(sharedPreferences.getBoolean(getString(R.string.REMEMBERME_KEY), false));
+        } else {
+            editor.putBoolean(getString(R.string.REMEMBERME_KEY), rememberMeCheckBox.isChecked());
         }
+        
         // Remember the saved credentials
         if (checkForCredentials()) {
             String savedUsername = sharedPreferences.getString(getString(R.string.USERNAME_KEY), "");
@@ -42,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
             usernameField.setText(savedUsername);
             passwordField.setText(savedPassword);
         }
+
     }
 
     @Click(R.id.buttonSignIn)
